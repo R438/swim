@@ -157,4 +157,12 @@ public interface SwimConfig extends Config
             description = "Play chime when chest moves"
     )
     default boolean isSoundEnabled() { return false; }
+
+    @ConfigItem(
+            position = 14,
+            keyName = "adjacentBubble",
+            name = "Adjacent Bubble",
+            description = "Indicate if current chest is adjacent to a bubble"
+    )
+    default boolean isAdjacentBubbleShown() { return true; }
 }

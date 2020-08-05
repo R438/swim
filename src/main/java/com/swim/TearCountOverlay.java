@@ -18,6 +18,8 @@ public class TearCountOverlay extends OverlayPanel
     static final String SWIM_RESET = "Reset";
     private final SwimPlugin plugin;
     private final SwimConfig config;
+    private static final String UNICODE_CHECK_MARK = "\u2713";
+    private static final String UNICODE_BALLOT_X = "\u2717";
 
     @Inject
     private TearCountOverlay(SwimPlugin plugin, SwimConfig config)
@@ -68,6 +70,15 @@ public class TearCountOverlay extends OverlayPanel
             panelComponent.getChildren().add(LineComponent.builder()
                     .left("Direction:")
                     .right(plugin.getDirection())
+                    .build());
+        }
+
+        if (config.isAdjacentBubbleShown())
+        {
+            panelComponent.getChildren().add(LineComponent.builder()
+                    .left("Bubble:")
+                    .right(plugin.isBubbleAdjacent() ? UNICODE_CHECK_MARK : UNICODE_BALLOT_X)
+                    .rightColor(plugin.isBubbleAdjacent() ? Color.GREEN : Color.RED)
                     .build());
         }
 

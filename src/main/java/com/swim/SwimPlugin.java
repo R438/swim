@@ -51,6 +51,14 @@ public class SwimPlugin extends Plugin
             30971
     );
 
+    private static final Set<WorldPoint> BUBBLE_ADJACENT_CHESTS = ImmutableSet.of(
+            new WorldPoint(3818,10270,1),
+            new WorldPoint(3782,10254,1),
+            new WorldPoint(3753,10266,1),
+            new WorldPoint(3751,10267,1),
+            new WorldPoint(3752,10269,1)
+    );
+
     private static final List<String> DIRECTION_LABELS = ImmutableList.of(
             "E",
             "ENE",
@@ -77,6 +85,9 @@ public class SwimPlugin extends Plugin
     private SwimTimer timer;
 
     private int lastXpDrop;
+
+    @Getter
+    private boolean bubbleAdjacent;
 
     @Getter
     private Instant start;
@@ -172,6 +183,7 @@ public class SwimPlugin extends Plugin
                 lastXpTime = null;
                 timer = null;
                 chestLoaded = false;
+                bubbleAdjacent = false;
                 break;
             case LOADING:
                 lastXpDrop = client.getSkillExperience(THIEVING);
@@ -198,6 +210,7 @@ public class SwimPlugin extends Plugin
 
             lastChestPosition = newChestPosition;
             checkChestLoaded();
+            checkBubbleAdjacent();
 
             if (newChestPosition != null && client.getLocalPlayer() != null)
             {
@@ -250,6 +263,18 @@ public class SwimPlugin extends Plugin
                 lastXpTime = null;
             }
         }
+    }
+
+    private void checkBubbleAdjacent()
+    {
+        bubbleAdjacent = false;
+        BUBBLE_ADJACENT_CHESTS.forEach(point ->
+        {
+            if (point.getX() == lastChestPosition.getX() && point.getY() == lastChestPosition.getY())
+            {
+                bubbleAdjacent = true;
+            }
+        });
     }
 
     public void checkUnderwater()
